@@ -1,0 +1,18 @@
+@*
+* This template takes a single argument, a String containing a
+* message to display.
+*@
+@(book: Book)
+
+@*
+* Call the `main` template with two arguments. The first
+* argument is a `String` with the title of the page, the second
+* argument is an `Html` object containing the body of the page.
+*@
+@layouts.main(book.title) {
+
+    <img src="@book.coverUrl" alt="@book.title cover">
+    <h1>@book.title</h1>
+    <h2>ISBN @book.isbn10.toPretty</h2>
+
+}
