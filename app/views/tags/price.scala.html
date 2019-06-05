@@ -1,0 +1,7 @@
+@(price: Option[BigDecimal])
+
+@if(price.isDefined) {
+    $@price
+} else {
+    <span class="text-muted">Not available</span>
+}

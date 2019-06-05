@@ -1,0 +1,10 @@
+@import tags.icon
+
+@(rating: Double)
+
+@for(i <- 1 to rating.toInt) {
+    <i data-feather="star" class="star--filled"></i>
+}
+@for(i <- 1 to (5 - rating.toInt)) {
+    <i data-feather="star" class="star--empty"></i>
+}

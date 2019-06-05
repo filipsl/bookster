@@ -10,5 +10,5 @@ abstract class Isbn(isbnString: String) {
 
   override def toString: String = isbnString
 
-  protected def toIsbn13: Isbn13
+  def toIsbn13: Isbn13
 }

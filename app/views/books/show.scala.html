@@ -1,18 +1,52 @@
+@import tags.{price => _, _}
+@import models.Book
+@import models.shop.AbstractShop
+
 @*
 * This template takes a single argument, a String containing a
 * message to display.
 *@
-@(book: Book)
+@(book: Book, results: Array[(AbstractShop, String, Option[BigDecimal])])
 
 @*
 * Call the `main` template with two arguments. The first
 * argument is a `String` with the title of the page, the second
 * argument is an `Html` object containing the body of the page.
 *@
-@layouts.main(book.title) {
+@layouts.main(book.title + " (" + book.publicationYear.toString + ")") {
 
     <img src="@book.coverUrl" alt="@book.title cover">
-    <h1>@book.title</h1>
-    <h2>ISBN @book.isbn10.toPretty</h2>
+    <h2>@book.authors</h2>
+    <h1>@book.title (@book.publicationYear)</h1>
+    <h3>ISBN: @book.isbn10.toPretty</h3>
+    <p>@book.averageRating (@book.ratingsCount votes)</p>
+    @stars(book.averageRating)
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <tbody>
+                @for((shop, url, price) <- results) {
+                    <tr>
+                        <td>
+                            <img src="@shop.logoUrl" alt="@shop.name logo" title="@shop.name" class="shop-logo">
+                        </td>
+                        <td>@shop.name</td>
+                        <td>@tags.price(price)</td>
+                        <td>
+                            @if(price.isDefined) {
+                                <a href="@url" target="_blank" class="btn btn-primary">
+                                    @icon("shopping-cart") Buy at @shop.name
+                                </a>
+                            } else {
+                                <a href="@url" target="_blank" class="btn btn-outline-secondary">
+                                    @icon("arrow-right") Go to @shop.name
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
 }
