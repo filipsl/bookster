@@ -15,20 +15,26 @@
 *@
 @layouts.main(book.title + " (" + book.publicationYear.toString + ")") {
 
-    <img src="@book.coverUrl" alt="@book.title cover">
-    <h2>@book.authors</h2>
-    <h1>@book.title (@book.publicationYear)</h1>
-    <h3>ISBN: @book.isbn10.toPretty</h3>
-    <p>@book.averageRating (@book.ratingsCount votes)</p>
-    @stars(book.averageRating)
+    <div class="clearfix mb-5">
+        <img src="@book.coverUrl" alt="@book.title cover" class="book__cover">
+        <div class="d-inline-block">
+            <div class="book__authors">@book.authors</div>
+            <h1 class="book__title">@book.title <small class="text-muted">(@book.publicationYear)</small></h1>
+            <div class="text-muted">ISBN: @book.isbn10.toPretty</div>
+            <div class="my-3">@stars(book.averageRating, book.ratingsCount)</div>
+            <div class="book__price">@tags.price(results(0)._3)</div>
+        </div>
+    </div>
 
     <div class="table-responsive">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-align-middle">
             <tbody>
                 @for((shop, url, price) <- results) {
                     <tr>
                         <td>
-                            <img src="@shop.logoUrl" alt="@shop.name logo" title="@shop.name" class="shop-logo">
+                            <a href="@shop.url" target="_blank">
+                                <img src="@shop.logoUrl" alt="@shop.name logo" title="@shop.name" class="shop-logo">
+                            </a>
                         </td>
                         <td>@shop.name</td>
                         <td>@tags.price(price)</td>

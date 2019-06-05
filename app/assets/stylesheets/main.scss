@@ -14,6 +14,37 @@ body {
   fill: none;
 }
 
+.book__cover {
+  float: left;
+  margin: 0 1.5rem 1.5rem 0;
+  height: calc(2*147px);
+}
+
+.book__authors {
+  font-size: 1.6rem;
+  margin-bottom: 0.2rem;
+}
+
+.book__title {
+  font-size: 2.5rem;
+}
+
+.book__price {
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.stars__icons {
+  font-size: 0;
+  margin-right: 0.5rem;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.star--empty, .star--filled {
+  margin-right: 0.2rem;
+}
+
 .star--empty {
   stroke: $star-color;
 }
@@ -23,7 +54,11 @@ body {
   fill: $star-color;
 }
 
+.table-align-middle td {
+  vertical-align: middle;
+}
+
 .shop-logo {
-  max-width: 10rem;
+  max-width: 12rem;
   max-height: 2rem;
 }

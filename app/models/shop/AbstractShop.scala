@@ -4,18 +4,24 @@ import models.isbn._
 import scalaj.http.Http
 import scalaj.http.HttpOptions
 
+import scala.concurrent.Future
+import scala.math.BigDecimal
+
 abstract class AbstractShop(val name: String, val url: String, val logoUrl: String) {
 
-  def isbnToUrl(isbn: Isbn): String // = queryUrl.replace("@", isbn.toString)
-
-  def isbn10ToPrice(isbn10: Isbn10): Option[BigDecimal]
-
-  def isbnToHtml(isbn: Isbn): String = {
-    val html = Http(isbnToUrl(isbn))
+  def isbn10ToPrice(isbn10: Isbn10): Option[BigDecimal] = {
+    val url = isbn10ToUrl(isbn10)
+    val html = Http(url)
       .option(HttpOptions.followRedirects(true))
       .header("User-Agent", "Opera")
       .asString
-    html.toString
+      .toString
+    val price = htmlToPrice(html)
+    price
   }
+
+  def isbn10ToUrl(isbn10: Isbn10): String
+
+  def htmlToPrice(html: String): Option[BigDecimal]
 
 }

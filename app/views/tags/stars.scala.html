@@ -1,10 +1,16 @@
 @import tags.icon
 
-@(rating: Double)
+@(averageRating: Double, ratingsCount: Long)
 
-@for(i <- 1 to rating.toInt) {
-    <i data-feather="star" class="star--filled"></i>
-}
-@for(i <- 1 to (5 - rating.toInt)) {
-    <i data-feather="star" class="star--empty"></i>
-}
+<div class="stars">
+    <div class="stars__icons">
+        @for(i <- 1 to averageRating.toInt) {
+            <i data-feather="star" class="star--filled"></i>
+        }
+        @for(i <- 1 to (5 - averageRating.toInt)) {
+            <i data-feather="star" class="star--empty"></i>
+        }
+    </div>
+    @BigDecimal(averageRating).setScale(2, BigDecimal.RoundingMode.HALF_EVEN).toDouble
+    (@ratingsCount&nbsp;vote@if(ratingsCount != 1){s})
+</div>

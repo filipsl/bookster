@@ -24,7 +24,9 @@ class BooksController @Inject()(cc: ControllerComponents, bookRepository: BookRe
     val isbn10 = new Isbn10(isbn10String)
     val book = bookRepository.find(isbn10)
 
-    val results = ShopsContainer.shopsList.map(shop => (shop, shop.isbnToUrl(isbn10), shop.isbn10ToPrice(isbn10)))
+    val results = ShopsContainer.shopsList
+      .map(shop => (shop, shop.isbn10ToUrl(isbn10), shop.isbn10ToPrice(isbn10)))
+      .sortBy(_._3)
 
     Ok(views.html.books.show(book, results))
 

@@ -4,6 +4,6 @@ object ShopsContainer {
   var shopsList: Array[AbstractShop] = Array(
     AlibrisShop,
     AmazonShop,
-    BarnesAndNobleShop
+    BarnesAndNobleShop,
   )
 }
