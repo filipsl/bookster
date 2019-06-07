@@ -1,3 +1,3 @@
-package models.isbn
+package exceptions
 
 case class InvalidIsbnException() extends Exception

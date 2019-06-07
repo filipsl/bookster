@@ -1,12 +1,15 @@
-@(averageRating: Double, ratingsCount: Long)
+@import models.isbn.Isbn10
+@(averageRating: Double, ratingsCount: Long, book: Book = null)
 
 <div class="stars">
-    <div class="stars__icons">
-        @for(i <- 1 to 5) {
+    <div class="stars__icons@if(book != null) { stars__icons--rating}">
+        @for(rating <- 1 to 5) {
             <div>
-                <i data-feather="star" class="star star--@if(i <= averageRating.round.toInt) {filled} else {empty}"></i>
+                @if(book != null) { <a href="@routes.RatingsController.rate(book.isbn10.toString, rating)"> }
+                <i data-feather="star" class="star star--@if(rating <= averageRating.round.toInt) {filled} else {empty}"@* data-toggle="tooltip" data-placement="bottom" title="@{rating}.0" *@></i>
+                @if(book != null) { </a> }
         }
-        @for(i <- 1 to 5) {
+        @for(rating <- 1 to 5) {
             </div>
         }
     </div>

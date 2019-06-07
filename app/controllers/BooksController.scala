@@ -1,18 +1,25 @@
 package controllers
 
+import exceptions.InvalidIsbnException
 import javax.inject._
-import models.Book
 import play.api.mvc._
-import models.isbn.{InvalidIsbnException, Isbn10}
-import models.shop.{AbstractShop, ShopsContainer}
+import models.isbn.Isbn10
+import models.shop.ShopsContainer
 import services.repositories.BookRepository
-import views.html.defaultpages.notFound
-
-import scala.concurrent.{Future, Promise}
-import scala.concurrent.duration.FiniteDuration
 
 @Singleton
 class BooksController @Inject()(cc: ControllerComponents, bookRepository: BookRepository) extends AbstractController(cc) {
+
+  def search(q: String) = Action {
+    try {
+      val isbn10 = new Isbn10(q.replaceAll("-", ""))
+      Redirect(routes.BooksController.show(isbn10.toString))
+    } catch {
+      case _: InvalidIsbnException =>
+        val results = bookRepository.search(q)
+        Ok(views.html.books.search(q, results))
+    }
+  }
 
   def show(isbn10String: String) = Action {
 
@@ -33,24 +40,6 @@ class BooksController @Inject()(cc: ControllerComponents, bookRepository: BookRe
       NotFound("Book not found")
     }
 
-  }
-
-  /*
-  def prices(isbn10String: String) = Action {
-    Ok("123")
-  }
-  */
-
-  def search(q: String) = Action {
-    try {
-      val isbn10 = new Isbn10(q.replaceAll("-", ""))
-      Redirect(routes.BooksController.show(isbn10.toString))
-    } catch {
-      case _: InvalidIsbnException => {
-        val results = bookRepository.search(q)
-        Ok(views.html.books.search(q, results))
-      }
-    }
   }
 
   /*

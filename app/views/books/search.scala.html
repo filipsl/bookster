@@ -48,7 +48,7 @@
                                     @book.authors
                                 </div>
                                 <span class="text-muted">ISBN: @book.isbn10.toPretty</span>
-                                <div class="my-3">@tags.stars(book.averageRating, book.ratingsCount)</div>
+                                <div class="my-3">@tags.stars(book.averageRating, book.ratingsCount, book)</div>
                             </td>
                         </tr>
                     }

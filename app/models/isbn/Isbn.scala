@@ -1,5 +1,7 @@
 package models.isbn
 
+import exceptions.InvalidIsbnException
+
 abstract class Isbn(isbnString: String) extends Serializable {
 
   if (!verify(isbnString)) {

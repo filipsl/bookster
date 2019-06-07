@@ -1,7 +1,7 @@
 /*@import "lib/bootstrap-sass/assets/stylesheets/bootstrap";*/
 
 $star-normal-color: gold;
-$star-hover-color: green;
+$star-hover-color: limegreen;
 
 body {
   padding-top: 90px;
@@ -68,14 +68,19 @@ strong, .text-strong {
   display: inline-block;
 }
 
-.stars__icons div:not(:hover) .star--filled {
-  fill: $star-normal-color;
-  stroke: $star-normal-color;
-}
+.stars__icons:not(.stars__icons--rating),
+.stars__icons div:not(:hover) {
+	.star {
+	  stroke: $star-normal-color;
+	}
 
-.stars__icons div:not(:hover) .star--empty {
-  fill: none;
-  stroke: $star-normal-color;
+	.star--filled {
+	  fill: $star-normal-color;
+	}
+
+	.star--empty {
+	  fill: none;		
+	}
 }
 
 .star {

@@ -1,0 +1,9 @@
+@(ratings: Map[String,Int])
+
+@layouts.main() {
+
+    @for((book_id, rating) <- ratings) {
+        @book_id -> @rating.0<br>
+    }
+
+}

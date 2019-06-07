@@ -41,10 +41,11 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
   private def rowToBook(row: Row): Option[Book] = {
     try {
       Some(new Book(
+        row.getString(0).toLong,
         new Isbn10(row.getString(5).reverse.padTo(10, '0').reverse),
         row.getString(7),
         if (row.getString(9).isBlank) row.getString(10) else row.getString(9),
-        row.getString(8).dropRight(2).toInt,
+        row.getString(8).dropRight(2).toShort,
         if (row.getString(21) == "https://s.gr-assets.com/assets/nophoto/book/111x148-bcc042a9c91a29c1d680899eff700a03.png") None else Some(row.getString(21)),
         row.getString(12).toDouble,
         row.getString(13).toString.toLong

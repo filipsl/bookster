@@ -14,7 +14,7 @@
             <h1 class="book__title">@book.title <small class="text-muted">(@book.publicationYear)</small></h1>
             <h2 class="book__authors">@book.authors</h2>
             <div class="text-muted">ISBN: @book.isbn10.toPretty</div>
-            <div class="my-3">@stars(book.averageRating, book.ratingsCount)</div>
+            <div class="my-3">@stars(book.averageRating, book.ratingsCount, book)</div>
             <div class="book__price">@tags.price(results(0)._3)</div>
         </div>
     </div>
