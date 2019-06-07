@@ -1,9 +1,10 @@
 package models.isbn
 
-abstract class Isbn(isbnString: String) {
+abstract class Isbn(isbnString: String) extends Serializable {
 
   if (!verify(isbnString)) {
-    throw new IllegalArgumentException("Invalid ISBN")
+    println(isbnString)
+    throw new InvalidIsbnException
   }
 
   protected def verify(isbn: String): Boolean
@@ -11,4 +12,5 @@ abstract class Isbn(isbnString: String) {
   override def toString: String = isbnString
 
   def toIsbn13: Isbn13
+
 }

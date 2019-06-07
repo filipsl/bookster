@@ -6,7 +6,7 @@ import scala.math.BigDecimal
 object BarnesAndNobleShop extends AbstractShop(
   "Barnes & Noble",
   "https://www.barnesandnoble.com",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Barnes_%26_Noble_logo.svg/250px-Barnes_%26_Noble_logo.svg.png"
+  "https://upload.wikimedia.org/wikipedia/commons/a/ae/Barnes_%26_Noble_logo.svg"
 ) {
 
   override def isbn10ToUrl(isbn10: Isbn10): String = "https://www.barnesandnoble.com/w/?ean=" + isbn10.toIsbn13.toString

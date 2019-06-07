@@ -1,9 +1,18 @@
-$star-color: gold;
+/*@import "lib/bootstrap-sass/assets/stylesheets/bootstrap";*/
+
+$star-normal-color: gold;
+$star-hover-color: green;
 
 body {
   padding-top: 90px;
   overflow-y: scroll;
 }
+
+/*
+strong, .text-strong {
+  font-weight: 600;
+}
+*/
 
 .feather {
   height: 1.2rem;
@@ -14,15 +23,22 @@ body {
   fill: none;
 }
 
-.book__cover {
+.books__results {
+  column-count: 2;
+}
+
+.book__cover--thumbnail {
+  height: 147px;
+}
+
+.book__cover--full {
   float: left;
-  margin: 0 1.5rem 1.5rem 0;
-  height: calc(2*147px);
+  margin: 0 2rem 2rem 0;
+  height: calc(2 * 147px);
 }
 
 .book__authors {
   font-size: 1.6rem;
-  margin-bottom: 0.2rem;
 }
 
 .book__title {
@@ -37,21 +53,34 @@ body {
 .stars__icons {
   font-size: 0;
   margin-right: 0.5rem;
+  vertical-align: top;
   display: inline-block;
-  vertical-align: bottom;
+  white-space: nowrap;
 }
 
-.star--empty, .star--filled {
-  margin-right: 0.2rem;
+.star {
+  margin-right: 0.3rem;
+  width: 1.6rem;
+  height: 1.6rem; 
 }
 
-.star--empty {
-  stroke: $star-color;
+.stars__icons div {
+  display: inline-block;
 }
 
-.star--filled {
-  stroke: $star-color;
-  fill: $star-color;
+.stars__icons div:not(:hover) .star--filled {
+  fill: $star-normal-color;
+  stroke: $star-normal-color;
+}
+
+.stars__icons div:not(:hover) .star--empty {
+  fill: none;
+  stroke: $star-normal-color;
+}
+
+.star {
+  stroke: $star-hover-color;
+  fill: $star-hover-color;
 }
 
 .table-align-middle td {

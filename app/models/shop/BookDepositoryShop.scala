@@ -1,15 +1,19 @@
-/*package shop
+package shop
 
 import models.isbn.Isbn10
+import models.shop.AbstractShop
 
-//TODO add price search
+import scala.math.BigDecimal
 
-object BookDepositoryShop extends AbstractShop("Book Depository",
+object BookDepositoryShop extends AbstractShop(
+  "Book Depository",
   "https://www.bookdepository.com",
-  "https://d3ogvdx946i4sr.cloudfront.net/assets/v2.15.15/img/logo.svg") {
+  "https://upload.wikimedia.org/wikipedia/commons/8/8a/The_Book_Depository.svg"
+) {
+  override def isbn10ToUrl(isbn10: Isbn10): String = "https://www.bookdepository.com/w/" + isbn10.toIsbn13.toString
 
-  override def isbn10ToPrice(isbn10: Isbn10): Option[BigDecimal] = {
-//    println(isbn10ToHtml(isbn10))
+  override def htmlToPrice(htmlVal: String): Option[BigDecimal] = {
+    println(htmlVal)
     None
   }
-}*/
+}

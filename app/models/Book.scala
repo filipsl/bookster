@@ -7,9 +7,13 @@ class Book(
   val authors: String,
   val title: String,
   val publicationYear: Int,
-  val coverUrl: String,
+  private val _coverUrl: Option[String],
   val averageRating: Double,
   val ratingsCount: Long
-) {
+) extends Serializable {
+
+  def coverUrl: String = {
+    if (_coverUrl.isDefined) _coverUrl.get else controllers.routes.Assets.versioned("images/default_cover.png").url
+  }
 
 }

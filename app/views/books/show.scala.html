@@ -2,24 +2,17 @@
 @import models.Book
 @import models.shop.AbstractShop
 
-@*
-* This template takes a single argument, a String containing a
-* message to display.
-*@
 @(book: Book, results: Array[(AbstractShop, String, Option[BigDecimal])])
 
-@*
-* Call the `main` template with two arguments. The first
-* argument is a `String` with the title of the page, the second
-* argument is an `Html` object containing the body of the page.
-*@
-@layouts.main(book.title + " (" + book.publicationYear.toString + ")") {
+@layouts.main(book.title) {
 
     <div class="clearfix mb-5">
-        <img src="@book.coverUrl" alt="@book.title cover" class="book__cover">
+        <a href="@book.coverUrl" target="_blank">
+            <img src="@book.coverUrl" alt="@book.title cover" class="book__cover--full">
+        </a>
         <div class="d-inline-block">
-            <div class="book__authors">@book.authors</div>
             <h1 class="book__title">@book.title <small class="text-muted">(@book.publicationYear)</small></h1>
+            <h2 class="book__authors">@book.authors</h2>
             <div class="text-muted">ISBN: @book.isbn10.toPretty</div>
             <div class="my-3">@stars(book.averageRating, book.ratingsCount)</div>
             <div class="book__price">@tags.price(results(0)._3)</div>
@@ -31,7 +24,7 @@
             <tbody>
                 @for((shop, url, price) <- results) {
                     <tr>
-                        <td>
+                        <td class="text-center">
                             <a href="@shop.url" target="_blank">
                                 <img src="@shop.logoUrl" alt="@shop.name logo" title="@shop.name" class="shop-logo">
                             </a>

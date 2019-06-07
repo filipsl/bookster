@@ -6,7 +6,7 @@ import scala.math.BigDecimal
 object AlibrisShop extends AbstractShop(
   "Alibris",
   "https://www.alibris.com",
-  "https://www3.alibris-static.com/images/red/nav/alibris-logo.gif"
+  "https://cdn.codes.co.uk/img/merchants/100119/360-logo/v2/alibris-discount-codes.png"
 ) {
 
   override def isbn10ToUrl(isbn10: Isbn10): String = "https://www.alibris.com/booksearch?keyword=" + isbn10.toIsbn13.toString

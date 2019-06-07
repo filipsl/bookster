@@ -1,14 +1,13 @@
-@import tags.icon
-
 @(averageRating: Double, ratingsCount: Long)
 
 <div class="stars">
     <div class="stars__icons">
-        @for(i <- 1 to averageRating.toInt) {
-            <i data-feather="star" class="star--filled"></i>
+        @for(i <- 1 to 5) {
+            <div>
+                <i data-feather="star" class="star star--@if(i <= averageRating.round.toInt) {filled} else {empty}"></i>
         }
-        @for(i <- 1 to (5 - averageRating.toInt)) {
-            <i data-feather="star" class="star--empty"></i>
+        @for(i <- 1 to 5) {
+            </div>
         }
     </div>
     @BigDecimal(averageRating).setScale(2, BigDecimal.RoundingMode.HALF_EVEN).toDouble

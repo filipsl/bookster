@@ -11,4 +11,5 @@ class Isbn13(val isbnString: String) extends Isbn(isbnString) {
   }
 
   override def toIsbn13: Isbn13 = this
+
 }

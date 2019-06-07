@@ -1,0 +1,82 @@
+@(q: String, results: Array[Book])
+
+@layouts.main() {
+
+
+    @if(results.isEmpty) {
+        <h1 class="h3 text-muted">No results</h1>
+    } else {
+        <h1 class="h3 mb-4">Search results for "<strong>@q</strong>"</h1>
+
+        @*
+        <div class="card-columns books__results">
+            @for(book <- results) {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="float-left mr-3">
+                            <a href="@routes.BooksController.show(book.isbn10.toString)" target="_blank">
+                                <img src="@book.coverUrl" alt="@book.title cover" class="book__cover--thumbnail">
+                            </a>
+                        </div>
+
+                        <a href="@routes.BooksController.show(book.isbn10.toString)"><strong>@book.title</strong></a>
+                        <br>
+                        @book.authors
+                        <br>
+                        <span class="text-muted">ISBN: @book.isbn10.toPretty</span>
+                        <div class="my-3">@tags.stars(book.averageRating, book.ratingsCount)</div>
+                    </div>
+                </div>
+            }
+        </div>
+        *@
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tbody>
+                    @for(book <- results) {
+                        <tr>
+                            <td class="text-center">
+                                <a href="@routes.BooksController.show(book.isbn10.toString)" target="_blank">
+                                    <img src="@book.coverUrl" alt="@book.title cover" class="book__cover--thumbnail">
+                                </a>
+                            </td>
+                            <td class="w-100">
+                                <div class="mb-2">
+                                    <a href="@routes.BooksController.show(book.isbn10.toString)"><strong>@book.title</strong></a>
+                                    <br>
+                                    @book.authors
+                                </div>
+                                <span class="text-muted">ISBN: @book.isbn10.toPretty</span>
+                                <div class="my-3">@tags.stars(book.averageRating, book.ratingsCount)</div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @*
+        <div class="books row">
+            @for(book <- results) {
+                <div class="book col-lg-4 d-inline-block">
+                    <div class="float-left">
+                        <a href="@book.coverUrl" target="_blank">
+                            <img src="@book.coverUrl" alt="@book.title cover" class="book__cover--thumbnail">
+                        </a>
+                    </div>
+                    <div>
+                        <a href="@routes.BooksController.show(book.isbn10.toString)"><strong>@book.title</strong></a>
+                        <br>
+                        @book.authors
+                        <br>
+                        <span class="text-muted">ISBN: @book.isbn10.toPretty</span>
+                        <div class="my-3">@tags.stars(book.averageRating, book.ratingsCount)</div>
+                    </div>
+                </div>
+            }
+        </div>
+        *@
+    }
+
+}

@@ -6,7 +6,7 @@ import scala.math.BigDecimal
 object AmazonShop extends AbstractShop(
   "Amazon",
   "https://www.amazon.com",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/175px-Amazon_logo.svg.png"
+  "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
 ) {
 
   override def isbn10ToUrl(isbn10: Isbn10): String = "https://www.amazon.com/dp/" + isbn10.toString
