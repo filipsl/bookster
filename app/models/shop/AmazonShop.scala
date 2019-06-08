@@ -12,25 +12,18 @@ object AmazonShop extends AbstractShop(
   override def isbn10ToUrl(isbn10: Isbn10): String = "https://www.amazon.com/dp/" + isbn10.toString
 
   override def htmlToPrice(htmlVal: String): Option[BigDecimal] = {
-    var html = htmlVal
-    val pricePattern = "[0-9]+\\.[0-9]+".r
-    if(html.contains("New</a> from <span class='a-color-price'>$")) {
-      html = html.drop(html.indexOfSlice("New</a> from <span class='a-color-price'>$"))
-      if (pricePattern.findFirstIn(html).isDefined) {
-        val priceString: String = pricePattern.findFirstIn(html).get
-        return Some(BigDecimal(priceString))
-      }
+
+    val pattern1 = "New</a> from <span class='a-color-price'>$"
+    val pattern2 = "<span class=\"a-size-medium a-color-price offer-price a-text-normal\">$"
+
+    htmlVal match{
+      case x if x.contains(pattern1) =>
+        Some(BigDecimal(pricePattern
+          .findFirstIn(x.drop(x.indexOfSlice(pattern1))).get))
+      case x if x.contains(pattern2) =>
+        Some(BigDecimal(pricePattern
+          .findFirstIn(x.drop(x.indexOfSlice(pattern2))).get))
+      case _ => None
     }
-    else if(html.contains("<span class=\"a-size-medium a-color-price offer-price a-text-normal\">$")){
-      html = html.drop(html.indexOfSlice("<span class=\"a-size-medium a-color-price offer-price a-text-normal\">$"))
-      //        println(html)
-      if(pricePattern.findFirstIn(html).isDefined) {
-        val priceString: String = pricePattern.findFirstIn(html).get
-        return Some(BigDecimal(priceString))
-      }
-      else
-        None
-    }
-    None
   }
 }

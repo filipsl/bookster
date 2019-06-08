@@ -7,8 +7,11 @@ import scalaj.http.Http
 import scalaj.http.HttpOptions
 
 import scala.math.BigDecimal
+import scala.util.matching.Regex
 
 abstract class AbstractShop(val name: String, val url: String, val logoUrl: String) {
+
+  protected val pricePattern: Regex = "[0-9]+\\.[0-9]+".r
 
   def isbn10ToPrice(isbn10: Isbn10): Option[BigDecimal] = {
     val url = isbn10ToUrl(isbn10)

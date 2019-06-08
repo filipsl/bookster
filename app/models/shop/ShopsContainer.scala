@@ -1,12 +1,14 @@
 package models.shop
 
-import shop.BookDepositoryShop
-
 object ShopsContainer {
   var shopsList: Array[AbstractShop] = Array(
+    AbeBooksShop,
     AlibrisShop,
     AmazonShop,
     BarnesAndNobleShop,
-    BookDepositoryShop,
+    BetterWorldBooksShop,
+    PowellsShop,
+    TatteredCoverShop,
+    ValoreBooksShop
   )
 }

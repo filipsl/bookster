@@ -12,19 +12,13 @@ object AlibrisShop extends AbstractShop(
   override def isbn10ToUrl(isbn10: Isbn10): String = "https://www.alibris.com/booksearch?keyword=" + isbn10.toIsbn13.toString
 
   override def htmlToPrice(htmlVal: String): Option[BigDecimal] = {
-    var html = htmlVal
-    if (html.contains("New\n</a>")) {
-      html = html.drop(html.indexOfSlice("New\n</a>"))
-      html = html.drop(html.indexOfSlice("<meta itemprop=\"price\" content=\""))
-      val pricePattern = "[0-9]+\\.[0-9]+".r
-      if (pricePattern.findFirstIn(html).isDefined) {
-        val priceString: String = pricePattern.findFirstIn(html).get
-        Some(BigDecimal(priceString))
-      }
-      else
-        None
+
+    val pattern1 = "<td class=\"price\" valign=\"top\">"
+
+    htmlVal match {
+      case x if x.contains(pattern1) =>
+        Some(BigDecimal(pricePattern.findFirstIn(x.drop(x.indexOfSlice(pattern1))).get))
+      case _ => None
     }
-    else
-      None
   }
 }

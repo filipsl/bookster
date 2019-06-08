@@ -1,8 +1,6 @@
-package shop
+/*package models.shop
 
 import models.isbn.Isbn10
-import models.shop.AbstractShop
-
 import scala.math.BigDecimal
 
 object BookDepositoryShop extends AbstractShop(
@@ -17,3 +15,4 @@ object BookDepositoryShop extends AbstractShop(
     None
   }
 }
+*/

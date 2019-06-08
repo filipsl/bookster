@@ -12,22 +12,16 @@ object BarnesAndNobleShop extends AbstractShop(
   override def isbn10ToUrl(isbn10: Isbn10): String = "https://www.barnesandnoble.com/w/?ean=" + isbn10.toIsbn13.toString
 
   override def htmlToPrice(htmlVal: String): Option[BigDecimal] = {
-    var html = htmlVal
-    val pricePattern = "[0-9]+\\.[0-9]+".r
-    if (html.contains("<title>No Results Page")) {
-      None
+
+    val pattern1 = "<title>No Results Page"
+    val pattern2 = "<span id=\"pdp-cur-price\" class=\"price current-price ml-0\"><sup>$</sup>"
+
+    htmlVal match{
+      case x if x.contains(pattern1) => None
+      case x if x.contains(pattern2) =>
+        Some(BigDecimal(pricePattern
+          .findFirstIn(x.drop(x.indexOfSlice(pattern2))).get))
+      case _ => None
     }
-    else {
-      if (html.contains("<span id=\"pdp-cur-price\" class=\"price current-price ml-0\"><sup>$</sup>")) {
-        html = html.drop(html.indexOfSlice("<span id=\"pdp-cur-price\" class=\"price current-price ml-0\"><sup>$</sup>"))
-        if (pricePattern.findFirstIn(html).isDefined) {
-          val priceString: String = pricePattern.findFirstIn(html).get
-          return Some(BigDecimal(priceString))
-        }
-        else
-          None
-      }
-    }
-    None
   }
 }
