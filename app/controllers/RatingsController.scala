@@ -13,7 +13,7 @@ import services.repositories.BookRepository
 class RatingsController @Inject()(cc: ControllerComponents, bookRepository: BookRepository) extends AbstractController(cc) {
 
   def ratings = Action { implicit request =>
-    Ok(views.html.books.ratings(getRatings))
+    Ok(views.html.ratings.show(getRatings))
   }
 
   private def unserializeRatings(ratings: String): Map[String,Int] = {

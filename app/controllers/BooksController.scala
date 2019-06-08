@@ -10,6 +10,10 @@ import services.repositories.BookRepository
 @Singleton
 class BooksController @Inject()(cc: ControllerComponents, bookRepository: BookRepository) extends AbstractController(cc) {
 
+  def explore = Action {
+    Ok(views.html.books.explore(bookRepository.random(20)))
+  }
+
   def search(q: String) = Action {
     try {
       val isbn10 = new Isbn10(q.replaceAll("-", ""))
@@ -22,7 +26,6 @@ class BooksController @Inject()(cc: ControllerComponents, bookRepository: BookRe
   }
 
   def show(isbn10String: String) = Action {
-
     val isbn10 = new Isbn10(isbn10String)
     val result = bookRepository.find(isbn10)
     if (result.isDefined) {
@@ -34,12 +37,12 @@ class BooksController @Inject()(cc: ControllerComponents, bookRepository: BookRe
             if (price1.isDefined && price2.isDefined) price1.get < price2.get
             else price1.isDefined
         })
-      Ok(views.html.books.show(book, results))
+      var price = if (results.isEmpty) None else results(0)._3
+      Ok(views.html.books.show(book, price, results))
 
     } else {
       NotFound("Book not found")
     }
-
   }
 
   /*

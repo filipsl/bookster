@@ -1,21 +1,26 @@
-@import tags.{price => _, _}
 @import models.Book
 @import models.shop.AbstractShop
 
-@(book: Book, results: Array[(AbstractShop, String, Option[BigDecimal])])
+@(book: Book, price: Option[BigDecimal], results: Array[(AbstractShop, String, Option[BigDecimal])])
 
 @layouts.main(book.title) {
 
-    <div class="clearfix mb-5">
-        <a href="@book.coverUrl" target="_blank">
-            <img src="@book.coverUrl" alt="@book.title cover" class="book__cover--full">
-        </a>
-        <div class="d-inline-block">
+    <div class="d-flex flex-row mb-5">
+        <div class="mr-4">
+            <a href="@book.coverUrl" target="_blank">
+                <img src="@book.coverUrl" alt="@book.title cover" class="book__cover">
+            </a>
+        </div>
+        <div>
             <h1 class="book__title">@book.title <small class="text-muted">(@book.publicationYear)</small></h1>
             <h2 class="book__authors">@book.authors</h2>
             <div class="text-muted">ISBN: @book.isbn10.toPretty</div>
-            <div class="my-3">@stars(book.averageRating, book.ratingsCount, book)</div>
-            <div class="book__price">@tags.price(results(0)._3)</div>
+            <div class="my-3">@tags.stars(book.averageRating, book.ratingsCount, book)</div>
+            @if(price.isDefined) {
+                <div class="book__price">@tags.price(price.get)</div>
+            } else {
+                <span class="book__price__badge badge badge-secondary badge-outlined">Not available</span>
+            }
         </div>
     </div>
 
@@ -24,21 +29,27 @@
             <tbody>
                 @for((shop, url, price) <- results) {
                     <tr>
+                        <td>@shop.name</td>
                         <td class="text-center">
                             <a href="@shop.url" target="_blank">
-                                <img src="@shop.logoUrl" alt="@shop.name logo" title="@shop.name" class="shop-logo">
+                                <img src="@shop.logoUrl" alt="@shop.name logo" title="@shop.name" class="shop__logo">
                             </a>
                         </td>
-                        <td>@shop.name</td>
-                        <td>@tags.price(price)</td>
+                        <td class="text-center">
+                            @if(price.isDefined) {
+                                <span class="shop__price">@tags.price(price.get)</span>
+                            } else {
+                                <span class="text-muted">Not available</span>
+                            }
+                        </td>
                         <td>
                             @if(price.isDefined) {
                                 <a href="@url" target="_blank" class="btn btn-primary">
-                                    @icon("shopping-cart") Buy at @shop.name
+                                    @tags.icon("shopping-cart") Buy at @shop.name
                                 </a>
                             } else {
                                 <a href="@url" target="_blank" class="btn btn-outline-secondary">
-                                    @icon("arrow-right") Go to @shop.name
+                                    @tags.icon("log-out") Go to @shop.name
                                 </a>
                             }
                         </td>

@@ -1,29 +1,27 @@
-@import tags.icon
-
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="@routes.HomeController.index">Bookster</a>
+        <a class="navbar-brand" href="@routes.HomeController.index"><i data-feather="book-open" class="logo"></i> Bookster</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="@routes.BooksController.show("0439554934")">@icon("search") Search for a book</a>
+                    <a class="nav-link" href="@routes.BooksController.explore">@tags.icon("search") Explore books</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@routes.RatingsController.ratings">@icon("star") Ratings</a>
+                    <a class="nav-link" href="@routes.RatingsController.ratings">@tags.icon("star") Rated books</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">@icon("zap") Get a recommendation</a>
+                    <a class="nav-link" href="#">@tags.icon("zap") Get a recommendation</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://127.0.0.1:4040/" target="_blank">@icon("activity") Apache Spark&trade;</a>
+                    <a class="nav-link" href="http://127.0.0.1:4040/" target="_blank">@tags.icon("activity") Apache Spark&trade;</a>
                 </li>
             </ul>
             <form action="@routes.BooksController.search("")" method="get" class="form-inline mt-2 mt-md-0">
                 <div class="input-group">
-                    <input type="text" name="q" placeholder="Title of the book, ISBN" aria-label="Title of the book, ISBN" class="form-control" autofocus>
+                    <input type="text" name="q" placeholder="Title of the book, ISBN" aria-label="Title of the book, ISBN" class="form-control" value="" autofocus>
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>

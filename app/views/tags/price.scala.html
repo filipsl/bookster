@@ -1,7 +1,3 @@
-@(price: Option[BigDecimal])
+@(price: BigDecimal)
 
-@if(price.isDefined) {
-    $@price
-} else {
-    <span class="text-muted">Not available</span>
-}
+$@price

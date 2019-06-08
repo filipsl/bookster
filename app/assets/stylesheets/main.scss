@@ -1,18 +1,12 @@
 /*@import "lib/bootstrap-sass/assets/stylesheets/bootstrap";*/
 
 $star-normal-color: gold;
-$star-hover-color: limegreen;
+$star-hover-color: goldenrod;
 
 body {
   padding-top: 90px;
   overflow-y: scroll;
 }
-
-/*
-strong, .text-strong {
-  font-weight: 600;
-}
-*/
 
 .feather {
   height: 1.2rem;
@@ -23,33 +17,65 @@ strong, .text-strong {
   fill: none;
 }
 
+.logo {
+  height: 2rem;
+  margin-right: 0.2rem;
+}
+
 .books__results {
   column-count: 2;
 }
 
-.book__cover--thumbnail {
-  height: 147px;
+.books__title {
+  margin-bottom: 0.1rem;  
+  max-height: calc(2*1.5rem);
+  overflow: hidden;
 }
 
-.book__cover--full {
-  float: left;
-  margin: 0 2rem 2rem 0;
-  height: calc(2 * 147px);
+.books__authors {
+  margin-bottom: 0.2rem;
+  max-height: calc(1*1.5rem);
+  overflow: hidden;
+}
+
+.book__thumbnail__box {
+  width: 120px;
+  height: 170px;
+  line-height: 170px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.book__thumbnail {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.book__cover {
+  max-width: 200px;
+  max-height: 300px;
 }
 
 .book__authors {
   font-size: 1.6rem;
+  margin-bottom: 0.8rem;
 }
 
 .book__title {
   font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .book__price {
-  font-weight: 600;
   font-size: 2rem;
+  font-weight: 600;
 }
 
+.book__price__badge {
+  font-size: 1.0rem;
+  font-weight: 600;
+}
+	  
 .stars__icons {
   font-size: 0;
   margin-right: 0.5rem;
@@ -68,18 +94,20 @@ strong, .text-strong {
   display: inline-block;
 }
 
-.stars__icons:not(.stars__icons--rating),
-.stars__icons div:not(:hover) {
-	.star {
-	  stroke: $star-normal-color;
-	}
+.stars__icons {
+	&:not(.stars__icons--rating),
+	div:not(:hover) {
+		.star {
+		  stroke: $star-normal-color;
+		}
 
-	.star--filled {
-	  fill: $star-normal-color;
-	}
+		.star--filled {
+		  fill: $star-normal-color;
+		}
 
-	.star--empty {
-	  fill: none;		
+		.star--empty {
+		  fill: none;		
+		}
 	}
 }
 
@@ -92,7 +120,11 @@ strong, .text-strong {
   vertical-align: middle;
 }
 
-.shop-logo {
+.shop__logo {
   max-width: 12rem;
-  max-height: 2rem;
+  max-height: 2.4rem;
+}
+
+.shop__price {
+  font-size: 1.3rem;
 }

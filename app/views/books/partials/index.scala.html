@@ -1,0 +1,29 @@
+@(results: Array[Book])
+
+<div class="card-columns books__results">
+@for(book <- results) {
+    <div class="card my-2 overflow-hidden">
+        <div class="card-body p-3 bg-light">
+            <div class="d-flex flex-row">
+                <div class="mr-3">
+                    <div class="book__thumbnail__box">
+                        <a href="@routes.BooksController.show(book.isbn10.toString)" target="_blank">
+                            <img src="@book.coverUrl" alt="@book.title cover" class="book__thumbnail">
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <div class="books__title">
+                        <a href="@routes.BooksController.show(book.isbn10.toString)"><strong>@book.title</strong></a>
+                    </div>
+                    <div class="books__authors">
+                        @book.authors
+                    </div>
+                    <span class="text-muted">ISBN: @book.isbn10.toPretty</span>
+                    <div class="my-3">@tags.stars(book.averageRating, book.ratingsCount)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</div>
