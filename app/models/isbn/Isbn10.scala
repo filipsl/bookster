@@ -13,13 +13,6 @@ class Isbn10(val isbnString: String) extends Isbn(isbnString) {
   override def toIsbn13: Isbn13 = {
     val rawIsbn = isbnString.take(9)
 
-    /*
-    val sum = 38 + rawIsbn.toArray.map(_.toString.toInt).zipWithIndex.map({
-      case (digit, index) => {
-        (if (index % 2 == 1) 1 else 3) * digit
-      }
-    }).sum
-    */
     val sum = rawIsbn
       .toArray
       .map(_.toString.toInt)

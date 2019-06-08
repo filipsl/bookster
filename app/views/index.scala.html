@@ -1,4 +1,14 @@
+@(coverUrls: Array[String])
+
 @layouts.main() {
+
+    @*
+    <div style="background: black; width: 2000px;">
+        <div class="text-center" style="font-size: 0; opacity: 0.3;">
+            @for(coverUrl <- coverUrls) {<img src="@coverUrl" alt=" " height="100">}
+        </div>
+    </div>
+    *@
 
     <div class="jumbotron">
         <h1>Welcome to Bookster!</h1>

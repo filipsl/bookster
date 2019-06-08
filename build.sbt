@@ -19,6 +19,6 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % "2.4.3",
   "org.apache.spark" %% "spark-mllib" % "2.4.3",
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.9",
-  "org.scalaj" %% "scalaj-http" % "2.4.1" //,
-  // "org.zouzias" %% "spark-lucenerdd" % "0.3.7"
+  "org.scalaj" %% "scalaj-http" % "2.4.1",
+  "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.0" % "test"
 )

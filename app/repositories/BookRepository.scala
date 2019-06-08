@@ -9,4 +9,5 @@ trait BookRepository {
   def search(q: String): Array[Book]
   def random(n: Int): Array[Book]
   def recommend(ratings: Map[Long, Int], n: Int): Array[Book]
+  def mostPopularIsbns(n: Int): Array[Isbn10]
 }

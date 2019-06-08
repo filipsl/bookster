@@ -119,7 +119,7 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
   }
 
   override def random(n: Int): Array[Book] = {
-    getManyBySql("SELECT * FROM books WHERE isbn IS NOT NULL ORDER BY RAND() ASC LIMIT " + n)
+    getManyBySql("SELECT * FROM books WHERE isbn IS NOT NULL AND isbn != \"\" ORDER BY RAND() ASC LIMIT " + n*2).take(n)
   }
 
   override def recommend(ratings: Map[Long,Int], n: Int): Array[Book] = {
@@ -147,5 +147,17 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     } catch {
       case _: IllegalArgumentException => throw new NoRatingsException
     }
+  }
+
+  override def mostPopularIsbns(n: Int): Array[Isbn10] = {
+    val sql = Array(
+      "SELECT isbn FROM books",
+      "WHERE isbn IS NOT NULL AND isbn != \"\"",
+      "LIMIT " + n
+    ).mkString(" ")
+
+    spark.sql(sql)
+      .rdd.collect
+      .map(row => new Isbn10(row.getString(0).reverse.padTo(10, '0').reverse))
   }
 }
