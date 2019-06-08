@@ -16,7 +16,6 @@ class Isbn10(val isbnString: String) extends Isbn(isbnString) {
     /*
     val sum = 38 + rawIsbn.toArray.map(_.toString.toInt).zipWithIndex.map({
       case (digit, index) => {
-        println(digit)
         (if (index % 2 == 1) 1 else 3) * digit
       }
     }).sum

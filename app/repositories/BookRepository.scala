@@ -8,4 +8,5 @@ trait BookRepository {
   def findManyByIds(ids: Array[Long]): Array[Book]
   def search(q: String): Array[Book]
   def random(n: Int): Array[Book]
+  def recommend(ratings: Map[Long, Int], n: Int): Array[Book]
 }

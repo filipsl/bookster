@@ -1,6 +1,6 @@
 package controllers
 
-import exceptions.InvalidRatingException
+import exceptions.{InvalidRatingException, NoRatingsException}
 import javax.inject._
 import models.Book
 import models.isbn.Isbn10
@@ -70,10 +70,15 @@ class RatingsController @Inject()(cc: ControllerComponents, bookRepository: Book
     Redirect(request.headers("referer")).withSession(request.session - "ratings")
   }
 
-  def recommend = Action { implicit request =>
-    val book_ids = Array[Long](1, 2, 3) // mock-up
-    val books = bookRepository.findManyByIds(book_ids)
-    Ok(views.html.ratings.recommend(books))
+  def recommend() = Action { implicit request =>
+    val ratings = getRatings
+    try {
+      val books = bookRepository.recommend(ratings, 10)
+      Ok(views.html.ratings.recommend(books, ratings))
+    } catch {
+      case _: NoRatingsException => Redirect(routes.RatingsController.show)
+    }
+    // Ok(views.html.ratings.loading(2000000, 200000, 100000))
   }
 
 }

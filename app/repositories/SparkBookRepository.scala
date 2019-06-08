@@ -1,17 +1,29 @@
 package repositories
 
+import exceptions.NoRatingsException
 import javax.inject._
+
 import scala.concurrent.Future
 import models.Book
 import models.isbn.Isbn10
 import play.api.inject.ApplicationLifecycle
 import org.apache.spark.SparkConf
+import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Row, SparkSession}
+import org.apache.spark.mllib.recommendation._
 
 @Singleton
 class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends BookRepository {
 
   // This code is called when the application starts.
+  private val ratingsSchema = StructType(
+    List(
+      StructField("user_id", IntegerType, true),
+      StructField("book_id", IntegerType, true),
+      StructField("rating", DoubleType, true)
+    )
+  )
+
   private val spark = {
     val conf = new SparkConf().setAppName("bookster").setMaster("local[*]")
     val spark = SparkSession.builder.config(conf).getOrCreate()
@@ -24,10 +36,22 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     reader.load("resources/books.csv")
       .createOrReplaceTempView("books")
 
-    reader.load("resources/ratings.csv")
+    reader.schema(ratingsSchema)
+      .load("resources/ratings.csv")
+      // .where("INT(user_id) > 100 AND INT(user_id) < 20000")
       .createOrReplaceTempView("ratings")
 
     spark
+  }
+
+  private val model = {
+    new ALS().setIterations(10)
+      .setBlocks(-1)
+      .setAlpha(1)
+      .setLambda(0.1)
+      .setRank(20)
+      .setSeed(321456L)
+      .setImplicitPrefs(true)
   }
 
   // When the application starts, register a stop hook with the
@@ -96,5 +120,32 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
 
   override def random(n: Int): Array[Book] = {
     getManyBySql("SELECT * FROM books WHERE isbn IS NOT NULL ORDER BY RAND() ASC LIMIT " + n)
+  }
+
+  override def recommend(ratings: Map[Long,Int], n: Int): Array[Book] = {
+    if (ratings.isEmpty) throw new NoRatingsException
+
+    val data = ratings.map({
+      case (bookId, rating) => Row(0, bookId.toInt, rating.toDouble)
+    }).toSeq
+    // val maxBookId = ratings.keys.max
+
+    val ownRatingsDF = spark.createDataFrame(spark.sparkContext.parallelize(data), ratingsSchema)
+
+    val trainingData = spark.sql("SELECT * FROM ratings").union(ownRatingsDF)
+    // WHERE book_id <= " + maxBookId
+
+    val ratingsRDD = trainingData.rdd.map(row => Rating(row.getInt(0), row.getInt(1), row.getDouble(2)))
+
+    try {
+      val topRecsForUser = model.run(ratingsRDD)
+        .recommendProducts(0, n * 2)
+        .map(rating => rating.product)
+        .map(_.toLong)
+        .filter(bookId => !(ratings.keys.toArray contains bookId))
+      findManyByIds(topRecsForUser).take(n)
+    } catch {
+      case _: IllegalArgumentException => throw new NoRatingsException
+    }
   }
 }

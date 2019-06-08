@@ -3,9 +3,9 @@
 @layouts.main("\"" + q + "\"") {
 
     @if(results.isEmpty) {
-        <h1 class="h3 text-muted">No results for "<strong>@q</strong>"</h1>
+        <h1 class="h2 text-muted">No results for "<strong>@q</strong>"</h1>
     } else {
-        <h1 class="h3 mb-3">Search results for "<strong>@q</strong>"</h1>
+        <h1 class="h2 mb-3">Search results for "<strong>@q</strong>"</h1>
 
         @books.partials.index(results, ratings)
 

@@ -1,11 +1,11 @@
 @import books.partials.index
 
-@(books: Array[Book])
+@(books: Array[Book], ratings: Map[Long,Int])
 
 @layouts.main("Recommended for you") {
 
-    <h1 class="h3">Recommended for you</h1>
+    <h1 class="h2 mb-3">Recommended for you</h1>
 
-    @index(books)
+    @index(books, ratings)
 
 }

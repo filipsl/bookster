@@ -4,20 +4,23 @@
 
 @layouts.main("Rated books") {
 
-    <h1 class="h3 mb-3">Rated books
+    <h1 class="h2 mb-3">Rated books
         @if(ratings.nonEmpty) {
             (@ratings.size)
         }
     </h1>
 
     @if(ratings.isEmpty) {
-        <p class="text-muted">You have not rated any book yet.</p>
+        <p class="text-muted">You have not rated any books yet.</p>
         <a href="@routes.BooksController.explore" class="btn btn-primary">@tags.icon("search") Explore books</a>
     } else {
         <div class="mb-3">
+            <a href="@routes.RatingsController.recommend" class="btn btn-success">@tags.icon("trending-up") Get a recommendation</a>
+        </div>
+        <div class="mb-3">
             @index(books, ratings)
         </div>
-        <a href="@routes.RatingsController.unrateAll" class="btn btn-outline-secondary">@tags.icon("x") Remove all ratings</a>
+        <a href="@routes.RatingsController.unrateAll" class="btn btn-outline-secondary ml-2">@tags.icon("x") Remove all ratings</a>
     }
 
 }

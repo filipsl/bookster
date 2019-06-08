@@ -30,14 +30,14 @@ class BooksController @Inject()(
     }
   }
 
-  def show(isbn10String: String) = Action {
+  def show(isbn10String: String) = Action { implicit request =>
     val isbn10 = new Isbn10(isbn10String)
     val result = bookRepository.find(isbn10)
     if (result.isDefined) {
       val book = result.get
       val results = pricesService.getPricesOfBook(book)
       var price = if (results.isEmpty) None else results(0)._3
-      Ok(views.html.books.show(book, price, results))
+      Ok(views.html.books.show(book, ratingsController.getRatings, price, results))
     } else {
       NotFound("Book not found")
     }

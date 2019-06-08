@@ -20,7 +20,7 @@ GET     /books/ratings                  controllers.RatingsController.show
 
 GET     /books/ratings/clear            controllers.RatingsController.unrateAll
 
-GET     /books/ratings/recommend        controllers.RatingsController.recommend
+GET     /books/ratings/recommend        controllers.RatingsController.recommend()
 
 #GET     /books/isbn/:isbn/prices    controllers.BooksController.prices(isbn: String)
 
