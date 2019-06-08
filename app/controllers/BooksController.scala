@@ -4,24 +4,29 @@ import exceptions.InvalidIsbnException
 import javax.inject._
 import play.api.mvc._
 import models.isbn.Isbn10
-import models.shop.ShopsContainer
-import services.repositories.BookRepository
+import services.PricesService
+import repositories.BookRepository
 
 @Singleton
-class BooksController @Inject()(cc: ControllerComponents, bookRepository: BookRepository) extends AbstractController(cc) {
+class BooksController @Inject()(
+  cc: ControllerComponents,
+  bookRepository: BookRepository,
+  pricesService: PricesService,
+  ratingsController: RatingsController
+) extends AbstractController(cc) {
 
   def explore = Action {
     Ok(views.html.books.explore(bookRepository.random(20)))
   }
 
-  def search(q: String) = Action {
+  def search(q: String) = Action { implicit request =>
     try {
       val isbn10 = new Isbn10(q.replaceAll("-", ""))
       Redirect(routes.BooksController.show(isbn10.toString))
     } catch {
       case _: InvalidIsbnException =>
         val results = bookRepository.search(q)
-        Ok(views.html.books.search(q, results))
+        Ok(views.html.books.search(q, results, ratingsController.getRatings))
     }
   }
 
@@ -30,16 +35,9 @@ class BooksController @Inject()(cc: ControllerComponents, bookRepository: BookRe
     val result = bookRepository.find(isbn10)
     if (result.isDefined) {
       val book = result.get
-      val results = ShopsContainer.shopsList
-        .map(shop => (shop, shop.isbn10ToUrl(isbn10), shop.isbn10ToPrice(isbn10)))
-        .sortWith({
-          case ((_, _, price1), (_, _, price2)) =>
-            if (price1.isDefined && price2.isDefined) price1.get < price2.get
-            else price1.isDefined
-        })
+      val results = pricesService.getPricesOfBook(book)
       var price = if (results.isEmpty) None else results(0)._3
       Ok(views.html.books.show(book, price, results))
-
     } else {
       NotFound("Book not found")
     }

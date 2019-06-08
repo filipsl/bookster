@@ -1,5 +1,6 @@
 import com.google.inject.AbstractModule
-import services.repositories.{BookRepository, SparkBookRepository}
+import services.PricesService
+import repositories.{BookRepository, SparkBookRepository}
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -17,6 +18,8 @@ class Module extends AbstractModule {
 
     // Ask Guice to create an instance of SparkBookRepository when the application starts.
     bind(classOf[BookRepository]).to(classOf[SparkBookRepository]).asEagerSingleton()
+
+    bind(classOf[PricesService]).asEagerSingleton()
 
   }
 

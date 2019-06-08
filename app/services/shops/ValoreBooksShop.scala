@@ -1,4 +1,4 @@
-package models.shop
+package services.shops
 
 import models.isbn.Isbn10
 import scala.math.BigDecimal

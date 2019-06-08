@@ -1,4 +1,4 @@
-package models.shop
+package services.shops
 
 import java.net.SocketTimeoutException
 

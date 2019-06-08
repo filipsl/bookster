@@ -1,7 +1,9 @@
 /*@import "lib/bootstrap-sass/assets/stylesheets/bootstrap";*/
 
-$star-normal-color: gold;
-$star-hover-color: goldenrod;
+$star-unrated-color: gold;
+$star-unrated-hover-color: goldenrod;
+$star-rated-color: limegreen;
+$star-rated-hover-color: green;
 
 body {
   padding-top: 90px;
@@ -94,26 +96,46 @@ body {
   display: inline-block;
 }
 
-.stars__icons {
-	&:not(.stars__icons--rating),
+.stars__icons--unrated {
 	div:not(:hover) {
 		.star {
-		  stroke: $star-normal-color;
+		  stroke: $star-unrated-color;
 		}
 
 		.star--filled {
-		  fill: $star-normal-color;
+		  fill: $star-unrated-color;
 		}
 
 		.star--empty {
 		  fill: none;		
 		}
 	}
+
+	.star {
+	  stroke: $star-unrated-hover-color;
+	  fill: $star-unrated-hover-color;
+	}
 }
 
-.star {
-  stroke: $star-hover-color;
-  fill: $star-hover-color;
+.stars__icons--rated {
+	div:not(:hover) {
+		.star {
+		  stroke: $star-rated-color;
+		}
+
+		.star--filled {
+		  fill: $star-rated-color;
+		}
+
+		.star--empty {
+		  fill: none;		
+		}
+	}
+
+	.star {
+	  stroke: $star-rated-hover-color;
+	  fill: $star-rated-hover-color;
+	}
 }
 
 .table-align-middle td {

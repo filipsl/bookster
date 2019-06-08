@@ -1,0 +1,11 @@
+@import books.partials.index
+
+@(books: Array[Book])
+
+@layouts.main("Recommended for you") {
+
+    <h1 class="h3">Recommended for you</h1>
+
+    @index(books)
+
+}

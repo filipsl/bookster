@@ -1,13 +1,13 @@
-@(q: String, results: Array[Book])
+@(q: String, results: Array[Book], ratings: Map[Long,Int] = Map())
 
 @layouts.main("\"" + q + "\"") {
 
     @if(results.isEmpty) {
         <h1 class="h3 text-muted">No results for "<strong>@q</strong>"</h1>
     } else {
-        <h1 class="h3 mb-4">Search results for "<strong>@q</strong>"</h1>
+        <h1 class="h3 mb-3">Search results for "<strong>@q</strong>"</h1>
 
-        @books.partials.index(results)
+        @books.partials.index(results, ratings)
 
         @*
         <div class="table-responsive">

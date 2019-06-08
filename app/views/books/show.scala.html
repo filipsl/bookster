@@ -1,21 +1,21 @@
 @import models.Book
-@import models.shop.AbstractShop
+@import services.shops.AbstractShop
 
 @(book: Book, price: Option[BigDecimal], results: Array[(AbstractShop, String, Option[BigDecimal])])
 
 @layouts.main(book.title) {
 
     <div class="d-flex flex-row mb-5">
-        <div class="mr-4">
+        <div>
             <a href="@book.coverUrl" target="_blank">
-                <img src="@book.coverUrl" alt="@book.title cover" class="book__cover">
+                <img src="@book.coverUrl" alt=" " class="book__cover mr-4">
             </a>
         </div>
         <div>
             <h1 class="book__title">@book.title <small class="text-muted">(@book.publicationYear)</small></h1>
             <h2 class="book__authors">@book.authors</h2>
             <div class="text-muted">ISBN: @book.isbn10.toPretty</div>
-            <div class="my-3">@tags.stars(book.averageRating, book.ratingsCount, book)</div>
+            <div class="my-3">@tags.stars(book)</div>
             @if(price.isDefined) {
                 <div class="book__price">@tags.price(price.get)</div>
             } else {
@@ -29,12 +29,12 @@
             <tbody>
                 @for((shop, url, price) <- results) {
                     <tr>
-                        <td>@shop.name</td>
-                        <td class="text-center">
+                        <td class="text-center w-25">
                             <a href="@shop.url" target="_blank">
                                 <img src="@shop.logoUrl" alt="@shop.name logo" title="@shop.name" class="shop__logo">
                             </a>
                         </td>
+                        <td>@shop.name</td>
                         <td class="text-center">
                             @if(price.isDefined) {
                                 <span class="shop__price">@tags.price(price.get)</span>

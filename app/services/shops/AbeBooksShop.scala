@@ -1,4 +1,4 @@
-package models.shop
+package services.shops
 
 import models.isbn.Isbn10
 
@@ -7,7 +7,7 @@ import scala.math.BigDecimal
 
 object AbeBooksShop extends AbstractShop("AbeBooks",
   "https://www.abebooks.com/",
-  "https://upload.wikimedia.org/wikipedia/en/e/e3/Abebooks-logo.png") {
+  "http://www.freelogovectors.net/wp-content/uploads/2019/01/AbeBooks-logo.png") {
 
   override def isbn10ToUrl(isbn10: Isbn10): String = "https://www.abebooks.com/products/isbn/" + isbn10.toIsbn13.toString
 

@@ -1,4 +1,4 @@
-package services.repositories
+package repositories
 
 import javax.inject._
 import scala.concurrent.Future
@@ -57,6 +57,14 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
   override def find(isbn10: Isbn10): Option[Book] = {
     val results = spark.sql(s"SELECT * FROM books WHERE isbn = '${isbn10.toDirty}'").rdd
     if (results.isEmpty()) None else Some(rowToBook(results.first).get)
+  }
+
+  override def findManyByIds(ids: Array[Long]): Array[Book] = {
+    if (ids.isEmpty) {
+      Array()
+    } else {
+      getManyBySql("SELECT * FROM books WHERE book_id IN (" + ids.mkString(", ") + ")")
+    }
   }
 
   protected def getManyBySql(sql: String): Array[Book] = {

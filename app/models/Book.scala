@@ -16,7 +16,9 @@ class Book(
   def coverUrl: String = {
     // if (_coverUrl.isDefined) _coverUrl.get else controllers.routes.Assets.versioned("images/default_cover.png").url
     // "https://prodimage.images-bn.com/pimages/" + isbn10.toIsbn13.toString + "_p0_v3_s550x406.jpg"
-    "https://www.alibris-static.com/w/isbn/" + isbn10.toIsbn13.toString + "_l.jpg"
+    // "https://www.alibris-static.com/w/isbn/" + isbn10.toIsbn13.toString + "_l.jpg"
+    val isbn = isbn10.toIsbn13.toString
+    "https://img.valorebooks.com/FULL/" + isbn.take(2) + "/" + isbn.take(4) + "/" + isbn.take(6) + "/" + isbn + ".jpg"
   }
 
 }

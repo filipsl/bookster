@@ -10,10 +10,10 @@
                     <a class="nav-link" href="@routes.BooksController.explore">@tags.icon("search") Explore books</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@routes.RatingsController.ratings">@tags.icon("star") Rated books</a>
+                    <a class="nav-link" href="@routes.RatingsController.show">@tags.icon("star") Rated books</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">@tags.icon("zap") Get a recommendation</a>
+                    <a class="nav-link" href="@routes.RatingsController.recommend">@tags.icon("trending-up") Get a recommendation</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="http://127.0.0.1:4040/" target="_blank">@tags.icon("activity") Apache Spark&trade;</a>
@@ -21,7 +21,7 @@
             </ul>
             <form action="@routes.BooksController.search("")" method="get" class="form-inline mt-2 mt-md-0">
                 <div class="input-group">
-                    <input type="text" name="q" placeholder="Title of the book, ISBN" aria-label="Title of the book, ISBN" class="form-control" value="" autofocus>
+                    <input type="text" name="q" placeholder="Title of the book, ISBN" aria-label="Title of the book, ISBN" class="form-control" value="" autocomplete="off" autofocus>
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>

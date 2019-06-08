@@ -1,18 +1,23 @@
 @import models.isbn.Isbn10
-@(averageRating: Double, ratingsCount: Long, book: Book = null)
+@(book: Book, ratings: Map[Long,Int] = Map())
 
 <div class="stars">
-    <div class="stars__icons@if(book != null) { stars__icons--rating}">
+    <div class="stars__icons stars__icons--@if(!ratings.isDefinedAt(book.id)) {un}rated">
         @for(rating <- 1 to 5) {
             <div>
-                @if(book != null) { <a href="@routes.RatingsController.rate(book.isbn10.toString, rating)"> }
-                <i data-feather="star" class="star star--@if(rating <= averageRating.round.toInt) {filled} else {empty}"@* data-toggle="tooltip" data-placement="bottom" title="@{rating}.0" *@></i>
-                @if(book != null) { </a> }
+                <a href="@routes.RatingsController.rate(book.isbn10.toString, rating)">
+                    <i data-feather="star" class="star star--@if(rating <= ratings.getOrElse(book.id, book.averageRating.round.toInt)) {filled} else {empty}"></i>
+                </a>
         }
         @for(rating <- 1 to 5) {
             </div>
         }
     </div>
-    @BigDecimal(averageRating).setScale(2, BigDecimal.RoundingMode.HALF_EVEN).toDouble
-    (@ratingsCount&nbsp;vote@if(ratingsCount != 1){s})
+
+    @if(ratings.isDefinedAt(book.id)) {
+        <strong>@{ratings(book.id)}.0</strong>
+    } else {
+        @BigDecimal(book.averageRating).setScale(2, BigDecimal.RoundingMode.HALF_EVEN).toDouble
+        (@book.ratingsCount&nbsp;vote@if(book.ratingsCount != 1){s})
+    }
 </div>

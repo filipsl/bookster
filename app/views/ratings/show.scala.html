@@ -1,9 +1,23 @@
-@(ratings: Map[String,Int])
+@import books.partials.index
 
-@layouts.main() {
+@(books: Array[Book], ratings: Map[Long,Int] = Map())
 
-    @for((book_id, rating) <- ratings) {
-        @book_id -> @rating.0<br>
+@layouts.main("Rated books") {
+
+    <h1 class="h3 mb-3">Rated books
+        @if(ratings.nonEmpty) {
+            (@ratings.size)
+        }
+    </h1>
+
+    @if(ratings.isEmpty) {
+        <p class="text-muted">You have not rated any book yet.</p>
+        <a href="@routes.BooksController.explore" class="btn btn-primary">@tags.icon("search") Explore books</a>
+    } else {
+        <div class="mb-3">
+            @index(books, ratings)
+        </div>
+        <a href="@routes.RatingsController.unrateAll" class="btn btn-outline-secondary">@tags.icon("x") Remove all ratings</a>
     }
 
 }

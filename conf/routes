@@ -16,9 +16,11 @@ GET     /books/isbn/:isbn/rate/:rating  controllers.RatingsController.rate(isbn:
 
 GET     /books/isbn/:isbn/unrate        controllers.RatingsController.unrate(isbn: String)
 
-GET     /books/ratings                  controllers.RatingsController.ratings
+GET     /books/ratings                  controllers.RatingsController.show
 
 GET     /books/ratings/clear            controllers.RatingsController.unrateAll
+
+GET     /books/ratings/recommend        controllers.RatingsController.recommend
 
 #GET     /books/isbn/:isbn/prices    controllers.BooksController.prices(isbn: String)
 
