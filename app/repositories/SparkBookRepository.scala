@@ -87,7 +87,9 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     if (ids.isEmpty) {
       Array()
     } else {
-      getManyBySql("SELECT * FROM books WHERE book_id IN (" + ids.mkString(", ") + ")")
+      val unorderedBooksArray = getManyBySql("SELECT * FROM books WHERE book_id IN (" + ids.mkString(", ") + ")")
+      val booksByIdMap = unorderedBooksArray.toSeq.groupBy(_.id)
+      ids.toSeq.flatMap(id => booksByIdMap.getOrElse(id, Seq.empty)).toArray
     }
   }
 
