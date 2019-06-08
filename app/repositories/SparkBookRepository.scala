@@ -153,6 +153,7 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     val sql = Array(
       "SELECT isbn FROM books",
       "WHERE isbn IS NOT NULL AND isbn != \"\"",
+      "ORDER BY INT(book_id) ASC",
       "LIMIT " + n
     ).mkString(" ")
 

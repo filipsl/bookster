@@ -16,6 +16,7 @@
 
     @if(ratings.isDefinedAt(book.id)) {
         <strong>@{ratings(book.id)}.0</strong>
+        <a href="@routes.RatingsController.unrate(book.isbn10.toString)" class="text-muted stars__unrate">@tags.icon("x")</a>
     } else {
         @BigDecimal(book.averageRating).setScale(2, BigDecimal.RoundingMode.HALF_EVEN).toDouble
         (@book.ratingsCount&nbsp;vote@if(book.ratingsCount != 1){s})

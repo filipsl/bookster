@@ -1,0 +1,50 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  overflow-y: scroll;
+  background: black;
+}
+
+.background {
+  background-image: url("../images/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  z-index: -1;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
+  filter: alpha(opacity=25);
+  opacity: 0.25;
+}
+
+body {
+  display: -ms-flexbox;
+  display: flex;
+  color: white;
+}
+
+.cover-container {
+  text-align: center;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 6rem;
+}
+
+.logo__icon {
+  width: 6rem;
+  height: 6rem;
+}
+
+#form {
+  width: 40%;
+}
+
+#query {
+  font-size: 1.5rem;
+}
+

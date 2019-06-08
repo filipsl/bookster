@@ -6,8 +6,12 @@ $star-rated-color: limegreen;
 $star-rated-hover-color: green;
 
 body {
-  padding-top: 90px;
   overflow-y: scroll;
+}
+
+#content {
+  margin-top: 90px;
+  margin-bottom: 60px;
 }
 
 .feather {
@@ -97,45 +101,54 @@ body {
 }
 
 .stars__icons--unrated {
-	div:not(:hover) {
-		.star {
-		  stroke: $star-unrated-color;
-		}
-
-		.star--filled {
-		  fill: $star-unrated-color;
-		}
-
-		.star--empty {
-		  fill: none;		
-		}
-	}
-
-	.star {
-	  stroke: $star-unrated-hover-color;
-	  fill: $star-unrated-hover-color;
-	}
+  div:not(:hover) {
+    .star {
+      stroke: $star-unrated-color;
+    }
+	
+    .star--filled {
+      fill: $star-unrated-color;
+    }
+	
+    .star--empty {
+      fill: none;		
+    }
+  }
+  
+  .star {
+    stroke: $star-unrated-hover-color;
+    fill: $star-unrated-hover-color;
+  }
 }
 
 .stars__icons--rated {
-	div:not(:hover) {
-		.star {
-		  stroke: $star-rated-color;
-		}
+  div:not(:hover) {
+    .star {
+      stroke: $star-rated-color;
+    }
+    
+    .star--filled {
+      fill: $star-rated-color;
+    }
+    
+    .star--empty {
+      fill: none;		
+    }
+  }
+  
+  .star {
+    stroke: $star-rated-hover-color;
+    fill: $star-rated-hover-color;
+  }
+}
 
-		.star--filled {
-		  fill: $star-rated-color;
-		}
-
-		.star--empty {
-		  fill: none;		
-		}
-	}
-
-	.star {
-	  stroke: $star-rated-hover-color;
-	  fill: $star-rated-hover-color;
-	}
+.stars__unrate {
+  position: absolute;
+  top: 0; right: 0;
+  
+  &:not(:hover) {
+    color: lightgray !important;
+  }
 }
 
 .table-align-middle td {

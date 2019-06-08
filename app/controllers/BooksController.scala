@@ -26,7 +26,11 @@ class BooksController @Inject()(
     } catch {
       case _: InvalidIsbnException =>
         val results = bookRepository.search(q)
-        Ok(views.html.books.search(q, results, ratingsController.getRatings))
+        if (results.length == 1) {
+          Redirect(routes.BooksController.show(results(0).isbn10.toString))
+        } else {
+          Ok(views.html.books.search(q, results, ratingsController.getRatings))
+        }
     }
   }
 
