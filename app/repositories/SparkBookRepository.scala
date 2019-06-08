@@ -87,7 +87,7 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     if (ids.isEmpty) {
       Array()
     } else {
-      getManyBySql("SELECT * FROM books WHERE book_id IN (" + ids.mkString(", ") + ")")
+      ids.map(id => getManyBySql("SELECT * FROM books WHERE book_id = (" + id.toString + ")")(0))
     }
   }
 
