@@ -13,7 +13,7 @@ object AmazonShop extends AbstractShop(
 
   override def htmlToPrice(htmlVal: String): Option[BigDecimal] = {
 
-    val pattern1 = "New</a> from <span class='a-color-price'>$"
+    val pattern1 = "<span class='a-color-price'>$"
     val pattern2 = "<span class=\"a-size-medium a-color-price offer-price a-text-normal\">$"
 
     htmlVal match{
