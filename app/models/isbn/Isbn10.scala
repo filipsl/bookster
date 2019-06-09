@@ -39,4 +39,14 @@ class Isbn10(val isbnString: String) extends Isbn(isbnString) {
     ).mkString("-")
   }
 
+  override def canEqual(a: Any): Boolean = a.isInstanceOf[Isbn10] || a.isInstanceOf[Isbn13]
+
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: Isbn10 => that.canEqual(this) && this.toString == that.toString
+      case that: Isbn13 => this.toIsbn13.toString == that.toString
+      case _ => false
+    }
+
+
 }

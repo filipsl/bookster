@@ -15,4 +15,8 @@ abstract class Isbn(isbnString: String) extends Serializable {
 
   def toIsbn13: Isbn13
 
+  def canEqual(a: Any):Boolean
+
+  override def equals(that: Any): Boolean
+
 }
