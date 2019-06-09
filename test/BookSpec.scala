@@ -21,7 +21,7 @@ class BookSpec extends PlaySpec {
 
     "return proper coverUrl" in {
       val isbn10 = new Isbn10("0722536542")
-      assert(Book.isbnToCoverUrl(isbn10) == "https://img.valorebooks.com/FULL/97/9780/978072/9780722536544.jpg")
+      Book.isbnToCoverUrl(isbn10) mustBe "https://img.valorebooks.com/FULL/97/9780/978072/9780722536544.jpg"
     }
   }
 }
