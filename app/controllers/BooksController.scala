@@ -52,22 +52,12 @@ class BooksController @Inject()(
     if (result.isEmpty) throw new BookNotFoundException
     val book = result.get
     val rating = Ratings(request.session.get("ratings")).forBook(book)
-    val results = pricesService.getPricesOfBook(book)
-    val price = if (results.isEmpty) None else results(0)._3
-    Ok(views.html.books.show(book, rating, price, results))
+    Ok(views.html.books.show(book, rating))
   }
 
-  /*
-  def prices(isbn10String: String) = Action.async {
-    getFutureMessage(1.second).map { msg => Ok(msg) }
+  def prices(isbn10String: String) = Action {
+    val isbn10 = new Isbn10(isbn10String)
+    val results = pricesService.getPricesOfBook(isbn10)
+    Ok(views.html.books.prices(results))
   }
-
-  private def getFutureMessage(delayTime: FiniteDuration): Future[String] = {
-    val promise: Promise[String] = Promise[String]()
-    actorSystem.scheduler.scheduleOnce(delayTime) {
-      promise.success("Hi!")
-    }(actorSystem.dispatcher) // run scheduled tasks using the actor system's dispatcher
-    promise.future
-  }
-  */
 }

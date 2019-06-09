@@ -1,6 +1,6 @@
 package services
 
-import models.Book
+import models.isbn.Isbn10
 import services.shops._
 
 import scala.concurrent.duration._
@@ -20,9 +20,9 @@ class PricesService {
     ValoreBooksShop
   )
 
-  def getPricesOfBook(book: Book): Array[(AbstractShop, String, Option[BigDecimal])] = {
+  def getPricesOfBook(isbn10: Isbn10): Array[(AbstractShop, String, Option[BigDecimal])] = {
     shopsList
-      .map(shop => (shop, shop.isbn10ToUrl(book.isbn10), Future(shop.isbn10ToPrice(book.isbn10))))
+      .map(shop => (shop, shop.isbn10ToUrl(isbn10), Future(shop.isbn10ToPrice(isbn10))))
       .map({
         case (shop, url, futurePrice) =>
           try {

@@ -1,7 +1,7 @@
 @import models.Book
 @import services.shops.AbstractShop
 
-@(book: Book, rating: Option[Int], price: Option[BigDecimal], results: Array[(AbstractShop, String, Option[BigDecimal])])
+@(book: Book, rating: Option[Int])
 
 @layouts.main(book.title) {
 
@@ -14,49 +14,27 @@
         <div>
             <h1 class="book__title">@book.title <small class="text-muted">(@book.publicationYear)</small></h1>
             <h2 class="book__authors">@book.authors</h2>
-            <div class="text-muted">ISBN: @book.isbn10.toPretty</div>
+            <div class="text-muted">
+                ISBN-10: @book.isbn10.toPretty<br>
+                ISBN-13: @book.isbn10.toIsbn13.toPretty
+            </div>
             <div class="my-3">@tags.stars(book, rating)</div>
+            @*
             @if(price.isDefined) {
                 <div class="book__price">@tags.price(price.get)</div>
             } else {
                 <span class="book__price__badge badge badge-secondary badge-outlined">Not available</span>
             }
+            *@
         </div>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-align-middle">
-            <tbody>
-                @for((shop, url, price) <- results) {
-                    <tr>
-                        <td class="text-center w-25">
-                            <a href="@shop.url" target="_blank">
-                                <img src="@shop.logoUrl" alt="@shop.name logo" title="@shop.name" class="shop__logo">
-                            </a>
-                        </td>
-                        <td>@shop.name</td>
-                        <td class="text-center">
-                            @if(price.isDefined) {
-                                <span class="shop__price">@tags.price(price.get)</span>
-                            } else {
-                                <span class="text-muted">Not available</span>
-                            }
-                        </td>
-                        <td>
-                            @if(price.isDefined) {
-                                <a href="@url" target="_blank" class="btn btn-primary">
-                                    @tags.icon("shopping-cart") Buy at @shop.name
-                                </a>
-                            } else {
-                                <a href="@url" target="_blank" class="btn btn-outline-secondary">
-                                    @tags.icon("log-out") Go to @shop.name
-                                </a>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div id="book__prices" class="text-center">
+        <div id="book__prices__loading" class="jumbotron">
+            <img src="@routes.Assets.versioned("images/loading.gif")" alt="">
+        </div>
+        <div id="book__prices__results"></div>
+        <script>var isbn10 = "@book.isbn10.toString";</script>
     </div>
 
 }

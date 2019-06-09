@@ -8,16 +8,16 @@
 
 @layouts.main("Recommended for you") {
 
-    <div id="loading" class="text-center jumbotron d-none">
-        <p id="loading__text">
+    <div id="recommendation__loading" class="text-center jumbotron d-none">
+        <p id="recommendation__loading__text">
             We are processing <strong>@formatter(ratingsCount) ratings</strong> of <strong>@formatter(booksCount) books</strong><br>
-                from <strong>@formatter(usersCount) people</strong> to find an interesting title especially for you...
+            from <strong>@formatter(usersCount) people</strong> to find an interesting title especially for you...
         </p>
         <div class="mt-4">
             <img src="@routes.Assets.versioned("images/loading.gif")" alt="">
         </div>
     </div>
 
-    <div id="results"></div>
+    <div id="recommendation__results"></div>
 
 }

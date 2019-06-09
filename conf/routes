@@ -10,11 +10,13 @@ GET     /books/explore                                              controllers.
 
 GET     /books/search                                               controllers.BooksController.search(q: Option[String])
 
-GET     /books/isbn/$isbn<[0-9]{9}[0-9Xx]>                          controllers.BooksController.show(isbn: String)
+GET     /books/isbn/$isbn10<[0-9]{9}[0-9Xx]>                        controllers.BooksController.show(isbn10: String)
 
-GET     /books/isbn/$isbn<[0-9]{9}[0-9Xx]>/rate/$rating<[12345]>    controllers.RatingsController.rate(isbn: String, rating: Int)
+GET     /books/isbn/$isbn10<[0-9]{9}[0-9Xx]>/prices                 controllers.BooksController.prices(isbn10: String)
 
-GET     /books/isbn/$isbn<[0-9]{9}[0-9Xx]>/unrate                   controllers.RatingsController.unrate(isbn: String)
+GET     /books/isbn/$isbn10<[0-9]{9}[0-9Xx]>/rate/$rating<[12345]>  controllers.RatingsController.rate(isbn10: String, rating: Int)
+
+GET     /books/isbn/$isbn10<[0-9]{9}[0-9Xx]>/unrate                 controllers.RatingsController.unrate(isbn10: String)
 
 GET     /ratings                                                    controllers.RatingsController.show
 

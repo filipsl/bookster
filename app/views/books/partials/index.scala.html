@@ -16,11 +16,14 @@
                     <div class="books__title">
                         <a href="@routes.BooksController.show(book.isbn10.toString)"><strong>@book.title</strong></a>
                     </div>
-                    <div class="books__authors">
-                        @book.authors
+                    <div class="books__authors text-primary">
+                        @for((author, index) <- book.authors.split(", ").zipWithIndex){@if(index != 0){,}
+                            <a href="@routes.BooksController.search(Some(author))">@author</a>}
                     </div>
                     <span class="text-muted">ISBN: @book.isbn10.toPretty</span>
-                    <div class="my-3">@tags.stars(book, ratings.forBook(book))</div>
+                    <div class="my-3">
+                        @tags.stars(book, ratings.forBook(book))
+                    </div>
                 </div>
             </div>
         </div>
