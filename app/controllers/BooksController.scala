@@ -1,7 +1,8 @@
 package controllers
 
-import exceptions.{BookNotFoundException, InvalidIsbnException, NoQueryException}
+import exceptions.{BookNotFoundException, InvalidIsbnException, NoQueryException, NoTermsException}
 import javax.inject._
+import models.Ratings
 import play.api.mvc._
 import models.isbn.Isbn10
 import services.PricesService
@@ -11,8 +12,7 @@ import repositories.BookRepository
 class BooksController @Inject()(
   cc: ControllerComponents,
   bookRepository: BookRepository,
-  pricesService: PricesService,
-  ratingsController: RatingsController
+  pricesService: PricesService
 ) extends AbstractController(cc) {
 
   def explore = Action {
@@ -21,7 +21,7 @@ class BooksController @Inject()(
 
   def search(q: Option[String]) = Action { implicit request =>
     if (q.isEmpty || q.get.isEmpty) {
-      throw new InvalidIsbnException
+      throw new NoQueryException
     }
     val query = q.get
     try {
@@ -29,28 +29,32 @@ class BooksController @Inject()(
       Redirect(routes.BooksController.show(isbn10.toString))
     } catch {
       case _: InvalidIsbnException =>
-        val results = bookRepository.search(query)
-        /*
-        if (results.length == 1) {
-          Redirect(routes.BooksController.show(results(0).isbn10.toString))
-        } else {
-          Ok(views.html.books.search(query, results, ratingsController.getRatings))
+        val ratings = Ratings(request.session.get("ratings"))
+        try {
+          val results = bookRepository.search(query)
+          /*
+          if (results.length == 1) {
+            Redirect(routes.BooksController.show(results(0).isbn10.toString))
+          } else {
+            Ok(views.html.books.search(query, results, ratings))
+          }
+          */
+          Ok(views.html.books.search(query, results, ratings))
+        } catch {
+          case _: NoTermsException => Ok(views.html.books.search(query, Array(), ratings))
         }
-        */
-        Ok(views.html.books.search(query, results, ratingsController.getRatings))
     }
   }
 
   def show(isbn10String: String) = Action { implicit request =>
     val isbn10 = new Isbn10(isbn10String)
     val result = bookRepository.find(isbn10)
-    if (result.isEmpty) {
-      throw new BookNotFoundException
-    }
+    if (result.isEmpty) throw new BookNotFoundException
     val book = result.get
+    val rating = Ratings(request.session.get("ratings")).forBook(book)
     val results = pricesService.getPricesOfBook(book)
     val price = if (results.isEmpty) None else results(0)._3
-    Ok(views.html.books.show(book, ratingsController.getRatings, price, results))
+    Ok(views.html.books.show(book, rating, price, results))
   }
 
   /*

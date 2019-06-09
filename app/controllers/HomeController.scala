@@ -5,9 +5,9 @@ import play.api.mvc._
 import repositories.BookRepository
 
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, bookRepository: BookRepository) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
-  def index = Action {
+  def index = Action { implicit request =>
     Ok(views.html.index())
   }
 

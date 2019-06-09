@@ -1,7 +1,7 @@
 @import models.Book
 @import services.shops.AbstractShop
 
-@(book: Book, ratings: Map[Long,Int], price: Option[BigDecimal], results: Array[(AbstractShop, String, Option[BigDecimal])])
+@(book: Book, rating: Option[Int], price: Option[BigDecimal], results: Array[(AbstractShop, String, Option[BigDecimal])])
 
 @layouts.main(book.title) {
 
@@ -15,7 +15,7 @@
             <h1 class="book__title">@book.title <small class="text-muted">(@book.publicationYear)</small></h1>
             <h2 class="book__authors">@book.authors</h2>
             <div class="text-muted">ISBN: @book.isbn10.toPretty</div>
-            <div class="my-3">@tags.stars(book, ratings)</div>
+            <div class="my-3">@tags.stars(book, rating)</div>
             @if(price.isDefined) {
                 <div class="book__price">@tags.price(price.get)</div>
             } else {

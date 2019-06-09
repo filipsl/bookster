@@ -1,10 +1,10 @@
 package repositories
 
-import exceptions.NoRatingsException
+import exceptions.{NoRatingsException, NoTermsException}
 import javax.inject._
 
 import scala.concurrent.Future
-import models.Book
+import models.{Book, Ratings}
 import models.isbn.Isbn10
 import play.api.inject.ApplicationLifecycle
 import org.apache.spark.SparkConf
@@ -53,6 +53,14 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
       .setSeed(321456L)
       .setImplicitPrefs(true)
   }
+
+  private val _ratingsCount = 5976479 // spark.sql("SELECT * FROM ratings").count()
+  private val _booksCount = 10000 // spark.sql("SELECT INT(book_id) FROM ratings").distinct().count()
+  private val _usersCount = 53424 // spark.sql("SELECT INT(user_id) FROM ratings").distinct().count()
+
+  def ratingsCount: Long = _ratingsCount
+  def booksCount: Long = _booksCount
+  def usersCount: Long = _usersCount
 
   // When the application starts, register a stop hook with the
   // ApplicationLifecycle object. The code inside the stop hook will
@@ -108,6 +116,8 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
       .split(" ")
       .filter(_.length >= 2)
 
+    if (terms.isEmpty) throw new NoTermsException
+
     val sql = Seq(
       "SELECT * FROM books",
       "WHERE " + (
@@ -124,10 +134,10 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     getManyBySql("SELECT * FROM books WHERE isbn IS NOT NULL AND isbn != \"\" ORDER BY RAND() ASC LIMIT " + n*2).take(n)
   }
 
-  override def recommend(ratings: Map[Long,Int], n: Int): Array[Book] = {
+  override def recommend(ratings: Ratings, n: Int): Array[Book] = {
     if (ratings.isEmpty) throw new NoRatingsException
 
-    val data = ratings.map({
+    val data = ratings.toMap.map({
       case (bookId, rating) => Row(0, bookId.toInt, rating.toDouble)
     }).toSeq
     // val maxBookId = ratings.keys.max
@@ -144,7 +154,7 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
         .recommendProducts(0, n * 2)
         .map(rating => rating.product)
         .map(_.toLong)
-        .filter(bookId => !(ratings.keys.toArray contains bookId))
+        .filter(bookId => !(ratings.bookIds contains bookId))
       findManyByIds(topRecsForUser).take(n)
     } catch {
       case _: IllegalArgumentException => throw new NoRatingsException

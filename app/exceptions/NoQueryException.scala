@@ -1,3 +1,3 @@
 package exceptions
 
-case class NoQueryException() extends Exception("No query")
+case class NoQueryException() extends Exception("Please enter your query")

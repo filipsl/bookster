@@ -4,7 +4,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                                                           controllers.HomeController.index
+GET     /                                                     controllers.HomeController.index
 
 GET     /books/explore                                              controllers.BooksController.explore
 
@@ -16,16 +16,13 @@ GET     /books/isbn/$isbn<[0-9]{9}[0-9Xx]>/rate/$rating<[12345]>    controllers.
 
 GET     /books/isbn/$isbn<[0-9]{9}[0-9Xx]>/unrate                   controllers.RatingsController.unrate(isbn: String)
 
-GET     /books/ratings                                              controllers.RatingsController.show
+GET     /ratings                                                    controllers.RatingsController.show
 
-GET     /books/ratings/clear                                        controllers.RatingsController.unrateAll
+GET     /ratings/clear                                              controllers.RatingsController.clear
 
-GET     /books/ratings/recommend                                    controllers.RatingsController.recommend()
+GET     /recommend                                                  controllers.RecommendController.loading
 
-#GET     /books/isbn/:isbn/prices    controllers.BooksController.prices(isbn: String)
-
-# An example controller showing how to write asynchronous code
-GET     /message                                controllers.AsyncController.message
+GET     /recommend/results                                          controllers.RecommendController.results
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                           controllers.Assets.versioned(path="/public", file: Asset)

@@ -5,7 +5,6 @@ import exceptions.InvalidIsbnException
 abstract class Isbn(isbnString: String) extends Serializable {
 
   if (!verify(isbnString)) {
-    println(isbnString)
     throw new InvalidIsbnException
   }
 

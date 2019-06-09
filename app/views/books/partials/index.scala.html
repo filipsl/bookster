@@ -1,4 +1,4 @@
-@(books: Array[Book], ratings: Map[Long,Int] = Map())
+@(books: Array[Book], ratings: Ratings)
 
 <div class="card-columns books__results">
 @for(book <- books) {
@@ -20,7 +20,7 @@
                         @book.authors
                     </div>
                     <span class="text-muted">ISBN: @book.isbn10.toPretty</span>
-                    <div class="my-3">@tags.stars(book, ratings)</div>
+                    <div class="my-3">@tags.stars(book, ratings.forBook(book))</div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 @import books.partials.index
 
-@(books: Array[Book], ratings: Map[Long,Int] = Map())
+@(books: Array[Book], ratings: Ratings)
 
 @layouts.main("Rated books") {
 
@@ -15,12 +15,12 @@
         <a href="@routes.BooksController.explore" class="btn btn-primary">@tags.icon("search") Explore books</a>
     } else {
         <div class="mb-3">
-            <a href="@routes.RatingsController.recommend" class="btn btn-success">@tags.icon("trending-up") Get a recommendation</a>
+            <a href="@routes.RecommendController.loading" class="btn btn-success">@tags.icon("trending-up") Get a recommendation</a>
         </div>
         <div class="mb-3">
             @index(books, ratings)
         </div>
-        <a href="@routes.RatingsController.unrateAll" class="btn btn-outline-secondary ml-2">@tags.icon("x") Remove all ratings</a>
+        <a href="@routes.RatingsController.clear" class="btn btn-outline-secondary ml-2">@tags.icon("x") Remove all ratings</a>
     }
 
 }
