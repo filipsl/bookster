@@ -1,3 +1,3 @@
 package exceptions
 
-case class InvalidIsbnException() extends Exception
+case class InvalidIsbnException() extends Exception("Invalid ISBN")

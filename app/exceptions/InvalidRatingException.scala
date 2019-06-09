@@ -1,3 +1,3 @@
 package exceptions
 
-case class InvalidRatingException() extends Exception
+case class InvalidRatingException() extends Exception("Invalid rating")

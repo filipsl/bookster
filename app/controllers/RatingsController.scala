@@ -1,6 +1,6 @@
 package controllers
 
-import exceptions.{InvalidRatingException, NoRatingsException}
+import exceptions.{BookNotFoundException, InvalidRatingException, NoRatingsException}
 import javax.inject._
 import models.Book
 import models.isbn.Isbn10
@@ -47,23 +47,21 @@ class RatingsController @Inject()(cc: ControllerComponents, bookRepository: Book
   def rate(isbn10String: String, rating: Int) = Action { implicit request =>
     val isbn10 = new Isbn10(isbn10String)
     val result = bookRepository.find(isbn10)
-    if (result.isDefined) {
-      val book = result.get
-      Redirect(request.headers("referer")).withSession(request.session + ("ratings" -> serializeRatings(withRating(book, rating))))
-    } else {
-      NotFound("Book not found")
+    if (result.isEmpty) {
+      throw new BookNotFoundException
     }
+    val book = result.get
+    Redirect(request.headers("referer")).withSession(request.session + ("ratings" -> serializeRatings(withRating(book, rating))))
   }
 
   def unrate(isbn10String: String) = Action { implicit request =>
     val isbn10 = new Isbn10(isbn10String)
     val result = bookRepository.find(isbn10)
-    if (result.isDefined) {
-      val book = result.get
-      Redirect(request.headers("referer")).withSession(request.session + ("ratings" -> serializeRatings(withoutRating(book))))
-    } else {
-      NotFound("Book not found")
+    if (result.isEmpty) {
+      throw new BookNotFoundException
     }
+    val book = result.get
+    Redirect(request.headers("referer")).withSession(request.session + ("ratings" -> serializeRatings(withoutRating(book))))
   }
 
   def unrateAll = Action { request =>

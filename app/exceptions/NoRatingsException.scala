@@ -1,3 +1,3 @@
 package exceptions
 
-case class NoRatingsException() extends Exception
+case class NoRatingsException() extends Exception("No ratings")

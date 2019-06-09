@@ -108,7 +108,7 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
       .split(" ")
       .filter(_.length >= 2)
 
-    val sql = Array(
+    val sql = Seq(
       "SELECT * FROM books",
       "WHERE " + (
         terms.map("CONCAT(LOWER(original_title), ' ', LOWER(authors)) LIKE '%" + _ + "%'")
@@ -151,6 +151,7 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     }
   }
 
+  /*
   override def mostPopularIsbns(n: Int): Array[Isbn10] = {
     val sql = Array(
       "SELECT isbn FROM books",
@@ -163,4 +164,5 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
       .rdd.collect
       .map(row => new Isbn10(row.getString(0).reverse.padTo(10, '0').reverse))
   }
+  */
 }

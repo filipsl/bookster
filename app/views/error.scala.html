@@ -1,0 +1,8 @@
+@(message: String)
+
+@layouts.main() {
+
+    <h1 class="h2 mb-4">@message</h1>
+    <a href="@routes.BooksController.explore()" class="btn btn-primary">@tags.icon("search") Explore books</a>
+
+}

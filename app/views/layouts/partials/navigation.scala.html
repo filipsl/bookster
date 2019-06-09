@@ -17,7 +17,7 @@
             <a class="nav-link" href="http://127.0.0.1:4040/" target="_blank">@tags.icon("activity") Apache Spark&trade;</a>
         </li>
     </ul>
-    <form action="@routes.BooksController.search("")" method="get" class="form-inline mt-2 mt-md-0">
+    <form action="@routes.BooksController.search(None)" method="get" class="form-inline mt-2 mt-md-0">
         <div class="input-group">
             <input type="text" name="q" placeholder="Title of the book, ISBN" aria-label="Title of the book, ISBN" class="form-control" value="" autocomplete="off" autofocus>
             <div class="input-group-append">

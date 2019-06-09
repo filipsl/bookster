@@ -5,6 +5,10 @@ $star-unrated-hover-color: goldenrod;
 $star-rated-color: limegreen;
 $star-rated-hover-color: green;
 
+html, body {
+  height: 100%;
+}
+
 body {
   overflow-y: scroll;
 }
