@@ -14,6 +14,10 @@ class RecommendController @Inject()(
 ) extends AbstractController(cc) {
 
   def loading = Action { implicit request =>
+    val ratings = Ratings(request.session.get("ratings"))
+    if (ratings.isEmpty) {
+      throw new NoRatingsException
+    }
     Ok(views.html.recommend.loading(
       bookRepository.ratingsCount,
       bookRepository.booksCount,

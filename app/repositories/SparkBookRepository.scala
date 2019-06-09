@@ -36,9 +36,11 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     reader.load("resources/books.csv")
       .createOrReplaceTempView("books")
 
-    reader.schema(ratingsSchema)
+    val ratingsDF = reader.schema(ratingsSchema)
       .load("resources/ratings.csv")
-      // .where("INT(user_id) > 100 AND INT(user_id) < 20000")
+
+    ratingsDF.withColumn("rating", ratingsDF.col("rating") - 3.0)
+      // .where("INT(user_id) > 100 AND INT(user_id) < 20000"
       .createOrReplaceTempView("ratings")
 
     spark
@@ -138,7 +140,7 @@ class SparkBookRepository @Inject() (appLifecycle: ApplicationLifecycle) extends
     if (ratings.isEmpty) throw new NoRatingsException
 
     val data = ratings.toMap.map({
-      case (bookId, rating) => Row(0, bookId.toInt, rating.toDouble)
+      case (bookId, rating) => Row(0, bookId.toInt, rating.toDouble - 3.0)
     }).toSeq
     // val maxBookId = ratings.keys.max
 

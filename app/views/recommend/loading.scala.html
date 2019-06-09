@@ -3,7 +3,7 @@
 @formatter(number: Long) = @{
     number.toString.toList.reverse.zipWithIndex.map({
         case (digit, index) => (if (index % 3 == 2) "," else "") + digit
-    }).reverse.mkString("")
+    }).reverse.mkString
 }
 
 @layouts.main("Recommended for you") {
